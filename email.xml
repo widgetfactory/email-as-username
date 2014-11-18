@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="3.1" type="plugin" group="system">
+	<name>System - Email as Username</name>
+	<author>Ryan Demmer</author>
+	<creationDate>November 2014</creationDate>
+	<copyright>(C) 2014 Widget Factory Limited. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later</license>
+	<authorEmail>info@widgetfactorylimited.co.uk</authorEmail>
+	<authorUrl>www.widgetfactorylimited.co.uk</authorUrl>
+	<version>1.0.0</version>
+	<description>System - Email as Username</description>
+
+	<files>
+		<filename plugin="email">email.php</filename>
+		<filename>index.html</filename>
+		<folder>email</folder>
+	</files>
+	<languages></languages>
+</extension>
