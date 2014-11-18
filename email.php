@@ -31,6 +31,44 @@ class PlgSystemEmail extends JPlugin
 	{
 		parent::__construct($subject, $config);
 	}
+	
+	protected function getUserId($email) {
+		
+		// Initialise some variables
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select($db->quoteName('id'))
+			->from($db->quoteName('#__users'))
+			->where($db->quoteName('email') . ' = ' . $db->quote($email));
+		$db->setQuery($query, 0, 1);
+
+		return $db->loadResult();
+	}
+	
+	protected function createUserName($name) {
+		$search  = array('#[^a-zA-Z0-9_\.\-\p{L}\p{N}\s ]#u');
+		
+		// remove multiple . characters
+        	$search[] = '#(\.){2,}#';
+
+        	// strip leading period
+        	$search[] = '#^\.#';
+
+        	// strip trailing period
+        	$search[] = '#\.$#';
+
+        	// strip whitespace
+        	$search[] = '#^\s*|\s*$#';
+
+		$name = preg_replace('#[\s ]#', '_', $name);		
+		$name = preg_replace($search, '', $name);
+		
+		while(JUserHelper::getUserId($name)) {
+			$name = JString::increment($name);
+		}
+		
+		return $name;
+	}
 
 	public function onAfterRoute() {
 		$app = JFactory::getApplication();
