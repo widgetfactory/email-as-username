@@ -48,13 +48,15 @@ class plgsystememail_as_usernameInstallerScript {
 		// get template
 		$templates = $this->getTemplates();
 		
+		jimport('joomla.filesystem.folder');
+		
 		if (!empty($templates)) {
 			if (is_dir($path . '/com_users')) {
-				JFolder::copy($path . '/com_users', $templates[0] . '/html/com_users');
+				JFolder::copy($path . '/com_users', JPATH_THEMES . '/' . $templates[0] . '/html/com_users');
 			}
 			
 			if (is_dir($path . '/mod_login')) {
-				JFolder::copy($path . '/mod_login', $templates[0] . '/html/mod_login');
+				JFolder::copy($path . '/mod_login', JPATH_THEMES . '/' . $templates[0] . '/html/mod_login');
 			}
 		}
 	}
