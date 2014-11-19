@@ -10,7 +10,7 @@
 	<version>1.0.0</version>
 	<description>System - Email as Username</description>
 	
-	<scriptfile>install.php</scriptfile>
+	<!--scriptfile>install.php</scriptfile-->
 
 	<files>
 		<filename plugin="email_as_username">email_as_username.php</filename>
