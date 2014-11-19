@@ -32,17 +32,26 @@ class PlgSystemEmail extends JPlugin
 		parent::__construct($subject, $config);
 	}
 	
-	protected function getUserId($email) {
-		
-		// Initialise some variables
+	protected function getUserName($email) {
 		$db = JFactory::getDbo();
+		
+		$username = null;
+		
 		$query = $db->getQuery(true)
-			->select($db->quoteName('id'))
-			->from($db->quoteName('#__users'))
-			->where($db->quoteName('email') . ' = ' . $db->quote($email));
-		$db->setQuery($query, 0, 1);
+		->select('username')
+		->from($db->quoteName('#__users'))
+		->where($db->quoteName('email') . ' = ' . $db->quote($data['email']));
 
-		return $db->loadResult();
+		// Get the username.
+		$db->setQuery($query);
+
+		try {
+			$username = $db->loadResult();
+		} catch (RuntimeException $e) {
+			return new JException(JText::sprintf('COM_USERS_DATABASE_ERROR', $e->getMessage()), 500);
+		}
+		
+		return $username;
 	}
 	
 	protected function createUserName($name) {
