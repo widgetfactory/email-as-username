@@ -11,7 +11,7 @@
 	<description>System - Email as Username</description>
 
 	<files>
-		<filename plugin="email-as-username">email-as-username.php</filename>
+		<filename plugin="email_as_username">email_as_username.php</filename>
 		<filename>index.html</filename>
 		<folder>form</folder>
 	</files>
@@ -27,7 +27,7 @@
 					label="Username Source"
 				>
 					<option value="name">Name</option>
-					<option value="email">E-mail Address</option>
+					<option value="email1">E-mail Address</option>
 				</field>
 
 			</fieldset>

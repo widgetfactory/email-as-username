@@ -17,7 +17,7 @@ defined('JPATH_BASE') or die;
  * @subpackage  System.email
  * @since       1.6
  */
-class PlgSystemEmail extends JPlugin
+class PlgSystemEmail_As_Username extends JPlugin
 {
 	/**
 	 * Constructor
@@ -102,7 +102,7 @@ class PlgSystemEmail extends JPlugin
 			$input  = $app->input;
 			$method = $input->getMethod();
 			
-			$data = $app->input->get('jform', array(), 'array');
+			$data 	= $app->input->get('jform', array(), 'array');
 
 			switch($task) {
 				case "registration.register":
