@@ -85,57 +85,53 @@ class PlgSystemEmail extends JPlugin
 		if($app->isAdmin()) return;
 		
 		$task = $app->input->getCmd('task');
-
-		if ($app->input->getCmd('option') === "com_users" &&  ($task === "user.login" || $task === "reset.confirm")) {
-			JSession::checkToken('request') or jexit(JText::_('JINVALID_TOKEN'));
-			
+		
+		if ($app->input->getCmd('option') === "com_users") {
+		
+			// quick check to make sure we are in the right task
+			if (!in_array($task, array('registration.register', 'user.login', 'reset.confirm'))) {
+				return true;
+			}
+		
 			$input  = $app->input;
 			$method = $input->getMethod();
 			
-			$data = array();
-			
-			if ($task === "reset.confirm") {
-				$data = $app->input->get('jform', array(), 'array');
-				// reset this
-				$data['username'] = null; 
-			}
-			
-			if ($task === "user.login") {
-				$data['username']  	= $input->$method->get('username', '', 'USERNAME');
-				$data['email']  	= $input->$method->get('email', '', 'EMAIL');
-			}
+			$data = $app->input->get('jform', array(), 'array');
 
-			if (array_key_exists('email', $data)) {
-				$db = JFactory::getDbo();
-				$query = $db->getQuery(true)
-				->select('username')
-				->from($db->quoteName('#__users'))
-				->where($db->quoteName('email') . ' = ' . $db->quote($data['email']));
+			switch($task) {
+				case "registration.register":
+					if (!empty($data) && isset($data['name'])) {
+						// get unique username
+						$data['username'] = $this->createUserName($data['name']);	
+						
+						// set new jform data
+						$app->input->post->set('jform', $data); 
+					}
 
-				// Get the username.
-				$db->setQuery($query);
-
-				try
-				{
-					$username = $db->loadResult();
-				}
-				catch (RuntimeException $e)
-				{
-					return new JException(JText::sprintf('COM_USERS_DATABASE_ERROR', $e->getMessage()), 500);
-				}
-
-				if ($task === "reset.confirm") {
-					// set username
-					$data['username'] = $username;
+					break;	
+				case "user.login":					
+					$email = $input->$method->get('email', '', 'EMAIL');
+					// get username from email
+					if (!empty($email)) {
+						$username= $this->getUserName($email);
+					}
+					
+					$input->$method->set('username', $username);
+					$input->$method->set('email', '');
+					
+					break;
+				case "reset.confirm":
+					$data['email'] = $input->$method->get('email', '', 'EMAIL');
+					
+					// get username from email
+					if (isset($data['email'])) {
+						$data['username'] = $this->getUserName($data['email']);
+					}
 				
 					// set new jform data
-					$app->input->set('jform', $data);
-				}
+					$app->input->post->set('jform', $data);
 				
-				if ($task === "user.login") {
-					$input->$method->set('username', $username);
-					$input->$method->set('email', '');		
-				}
+					break;
 			}
 		}
 	}
