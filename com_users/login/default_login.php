@@ -35,7 +35,7 @@ JHtml::_('behavior.keepalive');
 							
 							<?php if ($field->name === "password") : ?>
 							<span class="help-inline">
-								<a href="<?php echo JRoute::_('index.php?option=com_users&view=reset'); ?>" class="uk-margin-left"><?php echo JText::_('COM_USERS_LOGIN_RESET'); ?></a>
+								<a href="<?php echo JRoute::_('index.php?option=com_users&view=reset'); ?>">&nbsp;<?php echo JText::_('COM_USERS_LOGIN_RESET'); ?></a>
 							</span>
 							<?php endif;?>
 						</div>
