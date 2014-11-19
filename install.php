@@ -6,7 +6,7 @@
  * @copyright   Copyright (C) 2014 Ryan Demmer. All rights reserved.
  * @license     GNU General Public License version 2 or later
  */
-class plg_systememail_as_usernameInstallerScript {
+class plgsystememail_as_usernameInstallerScript {
 	
 	protected function getTemplates() {
         	$db = JFactory::getDBO();
