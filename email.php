@@ -160,8 +160,8 @@ class PlgSystemEmail extends JPlugin
 		// Check we are manipulating a valid form.
 		$name = $form->getName();
 
-		if (!in_array($name, array('com_users.login', 'com_users.reset_confirm')))
-		{
+		// quick check to make sure we are in the right form
+		if (!in_array($name, array('com_users.login', 'com_users.reset_confirm', 'com_users.registration'))) {
 			return true;
 		}
 
@@ -171,39 +171,48 @@ class PlgSystemEmail extends JPlugin
 		$input  = $app->input;
 		$method = $input->getMethod();
 		
-		// don't need username if there is no data submitted (form)
+		// get submitted username
 		$username = $input->$method->get('username', '', 'USERNAME');
-
-		if ($name === "com_users.login") {
-			$form->removeField('username');
-			$form->removeField('password');
-			$form->loadFile('login', false);
-
-			// return passed as $_GET
-			$return = base64_decode($app->input->get('return', '', 'BASE64'));
-			
-			if (!empty($return)) {				
-				// set user state to remember return
-				$app->setUserState('users.login.form.return', $return);
-				
-				$menus 	= $app->getMenu();
-				$menu 	= $menus->getActive();
-				
-				// reset menu login
-				if ($menu && $menu->params && $menu->params->get('login_return_url')) {
-					$menu->params->set('login_return_url', $return);
-				}
-			}
-		}
-
-		if ($name === "com_users.reset_confirm") {
-			$form->removeField('username');
-			$form->removeField('token');
-			$form->loadFile('reset_confirm', false);
-		}
+		// get jform data if any
+		$data = $input->post->get('jform', array(), 'array');
 		
-		// remove if no data (form not submitted)
-		if (empty($username)) {
+		switch($name) {
+			case "com_users.registration":
+				$form->removeField('username');
+				$form->removeField('password1');
+				$form->removeField('password2');
+				$form->loadFile('registration', false);
+				break;
+			case "com_users.login":
+				$form->removeField('username');
+				$form->removeField('password');
+				$form->loadFile('login', false);
+
+				// return passed as $_GET
+				$return = base64_decode($input->get('return', '', 'BASE64'));
+			
+				if (!empty($return)) {				
+					// set user state to remember return
+					$app->setUserState('users.login.form.return', $return);
+				
+					$menus 	= $app->getMenu();
+					$menu 	= $menus->getActive();
+				
+					// reset menu login
+					if ($menu && $menu->params && $menu->params->get('login_return_url')) {
+						$menu->params->set('login_return_url', $return);
+					}
+				}
+				break;
+			case "com_users.reset_confirm":
+				$form->removeField('username');
+				$form->removeField('token');
+				$form->loadFile('reset_confirm', false);
+				break;
+		}
+
+		// remove only if no data (form not submitted)
+		if (empty($username) && !isset($data['username'])) {
 			$form->removeField('username');
 		}
 
