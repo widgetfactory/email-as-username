@@ -43,7 +43,7 @@ class plgsystememail_as_usernameInstallerScript {
     	}
 
 	public function install($installer) {
-		$path = $installer->parent->getPath('source');
+		$path = $installer->getParent()->getPath('source');
 		
 		// get template
 		$templates = $this->getTemplates();
