@@ -42,8 +42,8 @@ class plgsystememail_as_usernameInstallerScript {
         	return $assigned;
     	}
 
-	public function install($parent) {
-		$path = $parent->getPath('source');
+	public function install($installer) {
+		$path = $installer->parent->getPath('source');
 		
 		// get template
 		$templates = $this->getTemplates();
@@ -59,8 +59,8 @@ class plgsystememail_as_usernameInstallerScript {
 		}
 	}
 	
-	public function update($parent) {
-		$this->install($parent);
+	public function update($installer) {
+		$this->install($installer);
 	}
 	
 }
