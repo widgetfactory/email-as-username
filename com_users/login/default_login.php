@@ -32,12 +32,6 @@ JHtml::_('behavior.keepalive');
 						</div>
 						<div class="controls">
 							<?php echo $field->input; ?>
-							
-							<?php if ($field->name === "password") : ?>
-							<span class="help-inline">
-								<a href="<?php echo JRoute::_('index.php?option=com_users&view=reset&Itemid=' . UsersHelperRoute::getResetRoute()); ?>">&nbsp;<?php echo JText::_('COM_USERS_LOGIN_RESET'); ?></a>
-							</span>
-							<?php endif;?>
 						</div>
 					</div>
 				<?php endif; ?>
@@ -76,6 +70,10 @@ JHtml::_('behavior.keepalive');
 </div>
 <div>
 	<ul class="nav nav-tabs nav-stacked">
+		<li>
+			<a href="<?php echo JRoute::_('index.php?option=com_users&view=reset'); ?>">
+			<?php echo JText::_('COM_USERS_LOGIN_RESET'); ?></a>
+		</li>
 		<?php
 		$usersConfig = JComponentHelper::getParams('com_users');
 		if ($usersConfig->get('allowUserRegistration')) : ?>
