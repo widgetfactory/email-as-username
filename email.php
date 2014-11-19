@@ -55,19 +55,25 @@ class PlgSystemEmail extends JPlugin
 	}
 	
 	protected function createUserName($name) {
-		$search  = array('#[^a-zA-Z0-9_\.\-\p{L}\p{N}\s ]#u');
-		
+		// email address
+		if (strpos($name, '@') !== false) {
+			$search  = array('#[<>"\'%;()&\\\\]|\\.\\./#');
+		// name
+		} else {
+			$search  = array('#[^a-zA-Z0-9_\.\-\p{L}\p{N}\s ]#u');
+		}
+
 		// remove multiple . characters
-        	$search[] = '#(\.){2,}#';
+        $search[] = '#(\.){2,}#';
 
-        	// strip leading period
-        	$search[] = '#^\.#';
+        // strip leading period
+        $search[] = '#^\.#';
 
-        	// strip trailing period
-        	$search[] = '#\.$#';
+        // strip trailing period
+        $search[] = '#\.$#';
 
-        	// strip whitespace
-        	$search[] = '#^\s*|\s*$#';
+        // strip whitespace
+        $search[] = '#^\s*|\s*$#';
 
 		$name = preg_replace('#[\s ]#', '_', $name);		
 		$name = preg_replace($search, '', $name);
@@ -100,9 +106,11 @@ class PlgSystemEmail extends JPlugin
 
 			switch($task) {
 				case "registration.register":
-					if (!empty($data) && isset($data['name'])) {
+					$source = $this->params->get('username_source', 'name');
+					
+					if (!empty($data) && isset($data[$source])) {
 						// get unique username
-						$data['username'] = $this->createUserName($data['name']);	
+						$data['username'] = $this->createUserName($data[$source]);	
 						
 						// set new jform data
 						$app->input->post->set('jform', $data); 
