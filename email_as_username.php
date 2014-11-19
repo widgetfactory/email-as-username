@@ -120,12 +120,13 @@ class PlgSystemEmail_As_Username extends JPlugin
 					break;	
 				case "user.login":					
 					$email = $input->$method->get('email', '', 'EMAIL');
+					
 					// get username from email
 					if (!empty($email)) {
 						$username= $this->getUserName($email);
+						$input->$method->set('username', $username);
 					}
-					
-					$input->$method->set('username', $username);
+
 					$input->$method->set('email', '');
 					
 					break;
