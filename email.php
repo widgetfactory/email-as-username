@@ -40,7 +40,7 @@ class PlgSystemEmail extends JPlugin
 		$query = $db->getQuery(true)
 		->select('username')
 		->from($db->quoteName('#__users'))
-		->where($db->quoteName('email') . ' = ' . $db->quote($data['email']));
+		->where($db->quoteName('email') . ' = ' . $db->quote($email));
 
 		// Get the username.
 		$db->setQuery($query);
