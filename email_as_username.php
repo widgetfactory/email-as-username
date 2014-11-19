@@ -64,16 +64,16 @@ class PlgSystemEmail_As_Username extends JPlugin
 		}
 
 		// remove multiple . characters
-        $search[] = '#(\.){2,}#';
+        	$search[] = '#(\.){2,}#';
 
-        // strip leading period
-        $search[] = '#^\.#';
+        	// strip leading period
+        	$search[] = '#^\.#';
 
-        // strip trailing period
-        $search[] = '#\.$#';
+        	// strip trailing period
+        	$search[] = '#\.$#';
 
-        // strip whitespace
-        $search[] = '#^\s*|\s*$#';
+        	// strip whitespace
+        	$search[] = '#^\s*|\s*$#';
 
 		$name = preg_replace('#[\s ]#', '_', $name);		
 		$name = preg_replace($search, '', $name);
