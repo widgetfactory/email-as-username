@@ -27,8 +27,11 @@ class PlgSystemEmail_As_Username extends JPlugin
 	 *
 	 * @since   1.5
 	 */
-	public function __construct(& $subject, $config)
-	{
+	public function __construct(& $subject, $config) {
+		if(JFactory::getApplication()->isAdmin()) {
+			return;
+		}
+		
 		parent::__construct($subject, $config);
 	}
 	
@@ -87,9 +90,7 @@ class PlgSystemEmail_As_Username extends JPlugin
 
 	public function onAfterRoute() {
 		$app = JFactory::getApplication();
-		
-		if($app->isAdmin()) return;
-		
+
 		$task = $app->input->getCmd('task');
 		
 		if ($app->input->getCmd('option') === "com_users") {
