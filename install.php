@@ -9,39 +9,39 @@
 class plg_systememail_as_usernameInstallerScript {
 	
 	protected function getTemplates() {
-        $db = JFactory::getDBO();
-        $app = JFactory::getApplication();
-        $id = 0;
+        	$db = JFactory::getDBO();
+        	$app = JFactory::getApplication();
+        	$id = 0;
 
-        if ($app->isSite()) {
-            $menus = $app->getMenu();
-            $menu = $menus->getActive();
+        	if ($app->isSite()) {
+        		$menus = $app->getMenu();
+            		$menu = $menus->getActive();
 
-            if ($menu) {
-                $id = isset($menu->template_style_id) ? $menu->template_style_id : $menu->id;
-            }
-        }
+            		if ($menu) {
+                		$id = isset($menu->template_style_id) ? $menu->template_style_id : $menu->id;
+            		}
+        	}
 
-        $query = $db->getQuery(true);
-        $query->select('id, template')->from('#__template_styles')->where(array("client_id = 0", "home = '1'"));
+        	$query = $db->getQuery(true);
+        	$query->select('id, template')->from('#__template_styles')->where(array("client_id = 0", "home = '1'"));
 
-        $db->setQuery($query);
-        $templates = $db->loadObjectList();
+        	$db->setQuery($query);
+        	$templates = $db->loadObjectList();
 
-        $assigned = array();
+        	$assigned = array();
 
-        foreach ($templates as $template) {
-            if ($id == $template->id) {
-                array_unshift($assigned, $template->template);
-            } else {
-                $assigned[] = $template->template;
-            }
-        }
+        	foreach ($templates as $template) {
+            		if ($id == $template->id) {
+                		array_unshift($assigned, $template->template);
+            		} else {
+                		$assigned[] = $template->template;
+            		}
+        	}
 
-        // return templates
-        return $assigned;
-    }
-	
+        	// return templates
+        	return $assigned;
+    	}
+
 	public function install($parent) {
 		$path = $parent->getPath('source');
 		
@@ -57,6 +57,10 @@ class plg_systememail_as_usernameInstallerScript {
 				JFolder::copy($path . '/mod_login', $templates[0] . '/html/mod_login');
 			}
 		}
+	}
+	
+	public function update($parent) {
+		$this->install($parent);
 	}
 	
 }
