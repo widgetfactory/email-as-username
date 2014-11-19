@@ -61,15 +61,6 @@ JHtml::_('behavior.keepalive');
 			</div>
 			<?php endif; ?>
 			
-			<?php
-			$usersConfig = JComponentHelper::getParams('com_users');
-			if ($usersConfig->get('allowUserRegistration')) : ?>
-				<li>
-					<a href="<?php echo JRoute::_('index.php?option=com_users&view=registration'); ?>">
-					<?php echo JText::_('COM_USERS_LOGIN_REGISTER'); ?></a>
-				</li>
-			<?php endif; ?>
-
 			<div class="control-group">
 				<div class="controls">
 					<button type="submit" class="btn btn-primary">
@@ -82,4 +73,16 @@ JHtml::_('behavior.keepalive');
 			<?php echo JHtml::_('form.token'); ?>
 		</fieldset>
 	</form>
+</div>
+<div>
+	<ul class="nav nav-tabs nav-stacked">
+		<?php
+		$usersConfig = JComponentHelper::getParams('com_users');
+		if ($usersConfig->get('allowUserRegistration')) : ?>
+		<li>
+			<a href="<?php echo JRoute::_('index.php?option=com_users&view=registration'); ?>">
+				<?php echo JText::_('COM_USERS_LOGIN_REGISTER'); ?></a>
+		</li>
+		<?php endif; ?>
+	</ul>
 </div>
