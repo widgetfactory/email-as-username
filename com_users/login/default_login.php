@@ -60,6 +60,15 @@ JHtml::_('behavior.keepalive');
 				<div class="controls"><input id="remember" type="checkbox" name="remember" class="inputbox" value="yes"/></div>
 			</div>
 			<?php endif; ?>
+			
+			<?php
+			$usersConfig = JComponentHelper::getParams('com_users');
+			if ($usersConfig->get('allowUserRegistration')) : ?>
+				<li>
+					<a href="<?php echo JRoute::_('index.php?option=com_users&view=registration'); ?>">
+					<?php echo JText::_('COM_USERS_LOGIN_REGISTER'); ?></a>
+				</li>
+			<?php endif; ?>
 
 			<div class="control-group">
 				<div class="controls">
