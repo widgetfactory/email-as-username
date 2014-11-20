@@ -103,7 +103,7 @@ class PlgSystemEmail_As_Username extends JPlugin
 			$input  = $app->input;
 			$method = $input->getMethod();
 			
-			$data 	= $app->input->get('jform', array(), 'array');
+			$data 	= $input->get('jform', array(), 'array');
 
 			switch($task) {
 				case "registration.register":
@@ -111,35 +111,34 @@ class PlgSystemEmail_As_Username extends JPlugin
 					
 					if (!empty($data) && isset($data[$source])) {
 						// get unique username
-						$data['username'] = $this->createUserName($data[$source]);	
+						$data['username'] = $this->createUserName($data[$source]);
 						
 						// set new jform data
-						$app->input->post->set('jform', $data); 
+						$input->post->set('jform', $data); 
 					}
 
 					break;	
 				case "user.login":					
-					$email = $input->$method->get('email', '', 'EMAIL');
+					$email = $input->get('email', '', 'EMAIL');
 					
 					// get username from email
 					if (!empty($email)) {
-						$username= $this->getUserName($email);
+						$username = $this->getUserName($email);
 						$input->$method->set('username', $username);
 					}
 
-					$input->$method->set('email', '');
+					$input->set('email', '');
 					
 					break;
-				case "reset.confirm":
-					$data['email'] = $input->$method->get('email', '', 'EMAIL');
-					
+				case "reset.confirm":	
+								
 					// get username from email
 					if (isset($data['email'])) {
 						$data['username'] = $this->getUserName($data['email']);
 					}
 				
 					// set new jform data
-					$app->input->post->set('jform', $data);
+					$input->set('jform', $data);
 				
 					break;
 			}
@@ -182,9 +181,8 @@ class PlgSystemEmail_As_Username extends JPlugin
 		$method = $input->getMethod();
 		
 		// get submitted username
-		$username = $input->$method->get('username', '', 'USERNAME');
-		// get jform data if any
-		$data = $input->post->get('jform', array(), 'array');
+		$username 	= $input->$method->get('username', '', 'USERNAME');
+		$data		= array();
 		
 		switch($name) {
 			case "com_users.registration":
@@ -192,6 +190,10 @@ class PlgSystemEmail_As_Username extends JPlugin
 				$form->removeField('password1');
 				$form->removeField('password2');
 				$form->loadFile('registration', false);
+				
+				// get jform data if any
+				$data = $input->post->get('jform', array(), 'array');
+				
 				break;
 			case "com_users.login":
 				$form->removeField('username');
@@ -218,6 +220,10 @@ class PlgSystemEmail_As_Username extends JPlugin
 				$form->removeField('username');
 				$form->removeField('token');
 				$form->loadFile('reset_confirm', false);
+				
+				// get jform data if any
+				$data = $input->get('jform', array(), 'array');
+				
 				break;
 		}
 
