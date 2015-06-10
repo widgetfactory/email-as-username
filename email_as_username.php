@@ -107,6 +107,7 @@ class PlgSystemEmail_As_Username extends JPlugin
 
 			switch($task) {
 				case "registration.register":
+				case "profile.save":
 					$source = $this->params->get('username_source', 'name');
 					
 					if (!empty($data) && isset($data[$source])) {
